@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>forkphorus2 – Scratch Nueva Phosphorus2</title>
+<style>
+    body {
+        background: white;
+        color: #000000;
+        font-family: Arial, sans-serif;
+        padding: 20px;
+    }
+    h1, h2, h3, p, label {
+        color: #000000;
+    }
+    input {
+        padding: 10px;
+        border: 2px solid #000000;
+        border-radius: 6px;
+        font-size: 15px;
+        margin: 5px 0;
+        color: #000000;
+    }
+    button {
+        padding: 10px 18px;
+        background: #000000;
+        color: white;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        margin: 6px;
+    }
+    button:hover {
+        background: #333333;
+    }
+    textarea {
+        width: 90%;
+        height: 130px;
+        border: 2px solid #000000;
+        border-radius: 6px;
+        padding: 10px;
+        font-size: 14px;
+        color: #000000;
+    }
+    .section { margin-top: 30px; }
+</style>
+</head>
+
+<body>
+
+<h1>Forkphorus2</h1>
+
+<p>forkphorus runs Scratch 3, 2, and 1 projects really fast by compiling them to JavaScript.</p>
+<p>Try it out by pasting a project ID or URL into the field below.</p>
+
+<!-- Campo para el enlace -->
+<input id="scratchURL" placeholder="https://scratch.mit.edu/projects/1251866619" style="width:80%;max-width:420px;">
+<button onclick="loadProject()">Cargar</button>
+
+<div class="section">
+    <h3>Tamaño de pantalla</h3>
+    <p>Puedes cambiar el tamaño exacto de la ventana del juego:</p>
+
+    Ancho: <input id="w" type="number" value="482" style="width:100px;">
+    Alto: <input id="h" type="number" value="393" style="width:100px;">
+    <button onclick="updateEmbed()">Aplicar tamaño</button>
+</div>
+
+<div id="player-area" class="section"></div>
+
+<div class="section">
+    <h2>Embed this project</h2>
+    <p>Include the forkphorus player in your web site.</p>
+
+    <textarea id="embedCode"></textarea>
+    <br>
+    <button onclick="copyEmbed()">Copiar Embed</button>
+</div>
+
+<div class="section">
+    <button onclick="window.open('https://github.com/forkphorus/forkphorus/issues')">
+        Report a problem
+    </button>
+</div>
+
+<script>
+let currentID = null;
+
+function extractID(url) {
+    const match = url.match(/projects\/(\d+)/);
+    return match ? match[1] : null;
+}
+
+function loadProject() {
+    const url = document.getElementById("scratchURL").value;
+    currentID = extractID(url);
+
+    if (!currentID) {
+        alert("Enlace inválido. Debe ser: https://scratch.mit.edu/projects/NUMERO");
+        return;
+    }
+
+    updateEmbed();
+}
+
+function updateEmbed() {
+    if (!currentID) return;
+
+    const width = document.getElementById("w").value;
+    const height = document.getElementById("h").value;
+
+    const embed = `
+<iframe src="https://forkphorus.github.io/embed.html?id=${currentID}&auto-start=true"
+width="${width}" height="${height}" allowfullscreen="true" allowtransparency="true" style="border:none;background:white;">
+</iframe>
+    `;
+
+    document.getElementById("player-area").innerHTML = embed;
+    document.getElementById("embedCode").value = embed;
+}
+
+function copyEmbed() {
+    const text = document.getElementById("embedCode");
+    text.select();
+    document.execCommand("copy");
+    alert("Embed copiado ✔️");
+}
+</script>
+
+</body>
+</html>
