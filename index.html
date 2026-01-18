@@ -2,105 +2,57 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Forkphorus2 – Cocrea.world</title>
+<title>Proyecto Cocrea.world</title>
 <style>
     body {
-        background: white;
-        color: #000000;
         font-family: Arial, sans-serif;
         padding: 20px;
+        background: white;
+        color: black;
     }
-    h1, h2, h3, p, label {
-        color: #000000;
-    }
-    button, a {
+    a {
         padding: 10px 18px;
-        background: #000000;
+        background: #000;
         color: white;
-        border: none;
-        border-radius: 6px;
-        cursor: pointer;
-        margin: 6px;
         text-decoration: none;
-        display: inline-block;
-    }
-    button:hover, a:hover {
-        background: #333333;
-    }
-    textarea {
-        width: 90%;
-        height: 130px;
-        border: 2px solid #000000;
         border-radius: 6px;
-        padding: 10px;
-        font-size: 14px;
-        color: #000000;
+        display: inline-block;
+        margin: 10px 0;
     }
-    .section { margin-top: 30px; }
+    a:hover {
+        background: #333;
+    }
+    iframe {
+        margin-top: 20px;
+        border: none;
+        background: white;
+    }
 </style>
 </head>
 <body>
 
-<h1>Forkphorus2 – Cocrea.world</h1>
+<h1>Proyecto Cocrea.world</h1>
 
-<p>Carga proyectos de Cocrea.world directamente en esta página haciendo clic en los enlaces.</p>
+<!-- Enlace para cargar el proyecto -->
+<a href="#" onclick="loadProject('12345')">Cargar Proyecto</a>
 
-<!-- Enlaces directos a proyectos de Cocrea.world -->
-<div class="section">
-    <h3>Proyectos disponibles:</h3>
-    <a href="#" onclick="loadProject('12345')">Proyecto Ejemplo 1</a>
-    <a href="#" onclick="loadProject('67890')">Proyecto Ejemplo 2</a>
-    <a href="#" onclick="loadProject('11223')">Proyecto Ejemplo 3</a>
-</div>
-
-<div class="section">
-    <h3>Tamaño de pantalla</h3>
-    <p>Puedes cambiar el tamaño exacto de la ventana del juego:</p>
-    Ancho: <input id="w" type="number" value="482" style="width:100px;">
-    Alto: <input id="h" type="number" value="393" style="width:100px;">
-    <button onclick="updateEmbed()">Aplicar tamaño</button>
-</div>
-
-<div id="player-area" class="section"></div>
-
-<div class="section">
-    <h2>Embed this project</h2>
-    <p>Incluye el reproductor en tu sitio web.</p>
-    <textarea id="embedCode"></textarea><br>
-    <button onclick="copyEmbed()">Copiar Embed</button>
+<!-- Área donde se mostrará el proyecto -->
+<div id="player-area">
+    <!-- El iframe se insertará aquí -->
 </div>
 
 <script>
-let currentID = null;
-
-// Función para cargar un proyecto de Cocrea.world
 function loadProject(id) {
-    currentID = id;
-    updateEmbed();
-}
+    const width = 482;  // ancho del juego
+    const height = 393; // alto del juego
 
-function updateEmbed() {
-    if (!currentID) return;
-
-    const width = document.getElementById("w").value;
-    const height = document.getElementById("h").value;
-
-    // Cambiar la URL del iframe a la de Cocrea.world
     const embed = `
-<iframe src="https://cocrea.world/embed.html?id=${currentID}"
-width="${width}" height="${height}" allowfullscreen="true" style="border:none;background:white;">
+<iframe src="https://cocrea.world/embed.html?id=${id}" 
+width="${width}" height="${height}" allowfullscreen="true">
 </iframe>
     `;
 
-    document.getElementById("player-area").innerHTML = embed;
-    document.getElementById("embedCode").value = embed;
-}
-
-function copyEmbed() {
-    const text = document.getElementById("embedCode");
-    text.select();
-    document.execCommand("copy");
-    alert("Embed copiado ✔️");
+    document.getElementById('player-area').innerHTML = embed;
 }
 </script>
 
